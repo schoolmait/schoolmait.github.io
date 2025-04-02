@@ -1,0 +1,677 @@
+html {
+    scroll-behavior: smooth;
+}
+/* === Global Resets & Base Styles === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Space Grotesk', sans-serif; /* Ensure font is applied */
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    color: #293241;
+    font-size: 18px;
+    /* Removed background: transparent; */
+}
+
+body {
+    background: #ffffff; /* Background from original external CSS */
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    color: #293241;
+}
+
+ul {
+    list-style: none; /* Applied globally, nav ul overrides below */
+}
+
+ul li {
+    padding-left: 30px;
+    margin-bottom: 15px;
+    position: relative;
+    transition: transform .2s ease;
+}
+
+ul li:hover {
+    transform: translateX(10px);
+}
+
+ul li:before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #e63946;
+    font-size: 1.2rem;
+    margin-top: -5px;
+}
+
+/* === Navigation === */
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    background-color: #293241;
+    padding: 22px 0;
+}
+.logo {
+    width: 188px;
+    border-radius: 5%;
+    margin-left: 15%;
+    display: block; /* Prevents potential spacing issues */
+}
+
+nav ul {
+    flex-direction: column; /* Example: Stack logo and links */
+    margin-right: 50px;
+    list-style: none; /* Explicitly remove list style for nav */
+    padding-left: 0; /* Reset padding */
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0px 22px; /* Keep original margin */
+    padding-left: 0; /* Override general ul li padding */
+    position: relative; /* Needed for pseudo-element */
+}
+
+nav ul li:hover {
+    transform: none; /* Override general li hover */
+}
+
+nav ul li:before {
+    content: none; /* Override general li marker */
+}
+
+nav ul li a {
+    color: #FEFEFE;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: bold;
+    position: relative;
+    padding: 5px 0;   /* <<< ADD THIS LINE */
+    display: block;   /* <<< ADD THIS LINE */
+}
+
+nav ul li a::after {
+    content: '';
+    width: 0;
+    height: 3px;
+    background: #B8DEEF;
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    transition: 0.22s;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+/* === Dropdown === */
+/* The dropdown container */
+/* === Dropdown === */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    /* display: none; <<< CHANGE TO display: block; */
+    display: block;
+    position: absolute;
+    background-color: #293241; /* Match nav background */
+    min-width: 200px; /* Adjust as needed */
+    z-index: 1001; /* Ensure it's above nav */
+    top: 100%; /* Position below the parent li */
+    left: 0;
+    padding: 10px 0; /* Add some vertical padding */
+    border-radius: 0 0 5px 5px; /* Optional: rounded bottom corners */
+
+    /* --- Add/Modify these lines for animation --- */
+    opacity: 0;                     /* Start fully transparent */
+    visibility: hidden;             /* Start hidden and non-interactive */
+    transform: translateY(-10px);   /* Start slightly moved up */
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s; /* Animate properties */
+}
+
+.dropdown-content a {
+    color: #FEFEFE; /* Match nav link color */
+    padding: 10px 20px; /* Adjust padding */
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    font-size: 18px; /* Slightly smaller than main nav */
+    font-weight: normal; /* Lighter weight for dropdown items */
+    position: relative; /* For the hover effect */
+    margin: 0; /* Reset margin if needed */
+}
+
+/* Optional: Add hover underline effect matching main nav */
+.dropdown-content a::after {
+    content: '';
+    width: 0;
+    height: 2px; /* Thinner underline for dropdown */
+    background: #B8DEEF;
+    position: absolute;
+    left: 20px; /* Align with padding */
+    bottom: 5px; /* Adjust position */
+    transition: 0.22s;
+}
+
+.dropdown-content a:hover::after {
+    width: calc(100% - 40px); /* Adjust width based on padding */
+}
+
+/* Optional: Subtle background highlight on hover */
+.dropdown-content a:hover {
+     background-color: rgba(184, 222, 239, 0.1);
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    opacity: 1;                   /* Fade to fully opaque */
+    visibility: visible;          /* Make it visible and interactive */
+    transform: translateY(0);     /* Move it down to its final position */
+}
+
+/* === Hamburger Menu Icon === */
+.menu-icon {
+    display: none; /* Hidden by default on larger screens */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    margin-right: 1%; /* Adjust as needed */
+    z-index: 1002; /* Ensure it's clickable above nav content */
+}
+
+.menu-icon span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #FEFEFE; /* Color of the lines */
+    margin: 5px 0;
+    transition: all 0.3s ease-in-out;
+    flex-shrink: 0;
+}
+
+/* === Hero Section === */
+.hero {
+    background: #425d81;
+    color: #fff;
+    padding: 44px 40px;
+    border-bottom: 10px solid #293241;
+    margin-bottom: 60px;
+    position: relative;
+    margin-top: 80px; /* Add margin to avoid overlap with fixed/absolute nav */
+    margin:auto;
+    margin-top: 6%;
+    max-width: 1400px;
+}
+
+.hero h1 {
+    font-size: clamp(2rem, 2rem + 3vw, 3.5rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    line-height: 1.1;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; /* Overlaps border */
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 60px solid transparent;
+    border-right: 60px solid transparent;
+    border-top: 60px solid #293241; /* Matches border color */
+    z-index: 1; /* Ensure it's above the border */
+}
+
+/* === Section & Grid Layout === */
+.section {
+    padding: 60px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    background: transparent;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+/* === Cards === */
+.card {
+    background: transparent;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    transition: all .3s ease;
+}
+
+.card:nth-child(odd) {
+    border: 5px solid #293241;
+    border-right: 10px solid #e63946;
+}
+
+.card:nth-child(even) {
+    border: 8px solid #293241;
+    border-bottom: 5px dashed #f08d94;
+}
+
+.card:hover {
+    background: #e8e8e8;
+    transform: translate(-10px, -10px);
+    box-shadow: 10px 10px 0 #293241;
+}
+
+.card::after { /* Decorative elements */
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #3d5a80;
+    opacity: .7;
+    z-index: -1; /* Place behind content */
+}
+
+.card:nth-child(1)::after {
+    top: -20px;
+    left: -20px;
+    transform: rotate(45deg);
+}
+
+.card:nth-child(2)::after {
+    bottom: 10px;
+    right: 10px;
+    border-radius: 50%;
+    background: #f08d94;
+}
+
+.card:nth-child(3)::after { /* Note: Only works if there's a 3rd card in a grid */
+    top: 20px;
+    right: -20px;
+    width: 60px;
+    height: 20px;
+}
+
+.card p.intro-paragraph {
+    margin-bottom: 20px; /* Space before the list */
+}
+
+/* === Full Width Card (Wellbeing Elements) === */
+.full-width-card {
+    border: 8px solid #293241;
+    border-top: 12px solid #e63946;
+    padding: 40px;
+    background: transparent;
+    position: relative;
+    /* Removed hover effect from original internal styles comment */
+}
+
+.full-width-card::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #3d5a80;
+    top: -30px;
+    left: -30px;
+    transform: rotate(45deg);
+    opacity: .7;
+}
+
+.elements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.element-item {
+    padding: 15px;
+    border: 3px solid #293241;
+    background: #fff;
+    transition: all .3s ease;
+}
+
+.element-item:hover {
+    transform: translate(-5px, -5px);
+    box-shadow: 10px 10px 0 #e63946;
+}
+
+.element-item strong {
+    display: block;
+    margin-bottom: 10px;
+    color: #e63946;
+}
+
+/* === Embeds (Video, Diagram) === */
+.video-embed {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    margin-top: 20px;
+    border: 3px solid #293241;
+    border-radius: 5px; /* Add this to apply border radius to all video embeds */
+    transition: transform .3s ease;
+    width: 100%;
+}
+
+.video-embed--rounded { /* Style for the specific rounded video */
+     border-radius: 5px;
+}
+
+.video-embed:hover {
+    transform: scale(1.02);
+}
+
+.video-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none; /* Overrides default iframe border */
+}
+
+.diagram-embed {
+    margin-top: 20px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.diagram-embed img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* === Testimonials === */
+.testimonials {
+    padding: 60px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    /* gap is defined in .grid */
+    position: relative;
+    background: transparent;
+}
+
+.testimonials::before { /* Decorative element */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20px;
+    width: 80px;
+    height: 20px;
+    background: #f08d94;
+    transform: rotate(-15deg);
+}
+
+.testimonial-card {
+    border: 5px solid #293241;
+    padding: 30px;
+    background: transparent;
+}
+
+.testimonial-card:nth-child(1) {
+    border-left: 10px solid #e63946;
+}
+
+.testimonial-card:nth-child(2) {
+    border-top: 8px dashed #3d5a80;
+}
+
+.testimonial-author {
+    margin-bottom: 15px; /* Space below author info */
+}
+
+.highlight-red { /* Class for red highlight */
+    background-color: #f6babe;
+    padding: 0 5px;
+}
+
+.highlight-blue { /* Class for blue highlight */
+    background-color: #bdd7e7;
+    padding: 0 5px;
+}
+
+
+/* === Call to Action (CTA) === */
+.cta {
+    padding: 80px 40px;
+    background: #e63946;
+    text-align: center;
+    border-top: 10px solid #293241;
+    margin-top: 60px;
+    position: relative;
+    color: #fff; /* Set default text color for CTA */
+}
+
+.cta h2 {
+    color: #fff; /* Override default h2 color */
+}
+
+.cta p {
+    margin-bottom: 20px; /* Space below paragraph */
+}
+
+.cta a {
+    color: #fff; /* Style for the mailto link */
+    text-decoration: underline;
+}
+
+.cta a:hover {
+    text-decoration: none;
+}
+
+.cta::after { /* Decorative element */
+    content: '';
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: #3d5a80;
+    transform: rotate(45deg);
+    opacity: .8;
+}
+
+.cta iframe {
+    border: 0;
+    width: 100%;
+    max-width: 600px; /* Optional: constrain iframe width */
+    margin-top: 20px; /* Space above iframe */
+}
+
+
+/* === Media Queries === */
+/* === Media Queries === */
+@media (max-width: 900px) { /* Adjust breakpoint (768px) as needed */
+
+    nav {
+        min-height: 60px; /* Example: Adjust nav height */
+        padding: 10px 5%; /* Adjust padding */
+        flex-wrap: nowrap; /* <<< ADD THIS LINE */
+    }
+    .logo {
+        width: 120px; /* Example: Smaller logo */
+    }
+
+    /* Show Hamburger, Hide Desktop Links */
+    .menu-icon {
+        display: block; /* Show the hamburger button */
+        flex-shrink: 0;
+    }
+    #nav-links { /* Target the UL by ID */
+        display: none; /* Hide the horizontal list */
+        position: absolute;
+        top: 100%; /* Position below the nav bar (adjust if nav height changes) */
+        left: 0;
+        width: 100%;
+        background-color: #293241; /* Background for the dropdown */
+        padding: 10px 0;
+        margin: 0;
+        box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+        border-top: 1px solid #425d81; /* Optional separator */
+    }
+
+    /* Style WHEN the menu is active (toggled open) */
+    #nav-links.active {
+        display: flex; /* Show the list when active */
+        max-height: calc(100vh - 60px); /* Max height = viewport height minus nav height (adjust 60px if your mobile nav height is different) */
+        overflow-y: auto; /* Allow vertical scrolling ONLY within this menu if needed */
+    }
+
+    /* Style list items and links in the mobile menu */
+    #nav-links li {
+        display: block;
+        width: 100%;
+        margin: 0;
+        text-align: center; /* Or left */
+    }
+    #nav-links li a { /* Includes .dropbtn */
+        padding: 15px 0;
+        display: block;
+        border-bottom: 1px solid #425d81; /* Separator */
+        font-size: 18px;
+    }
+    
+    /* Hide desktop hover underline on mobile */
+    #nav-links li a::after {
+        display: none;
+    }
+    #nav-links > li > a:hover {
+        background-color: rgba(184, 222, 239, 0.1); /* Same grey background */
+    }
+
+    /* --- Mobile Dropdown Integration --- */
+    #nav-links .dropdown {
+        position: static; /* Remove relative positioning */
+        overflow: visible; /* Allow content to show */
+    }
+
+    #nav-links .dropdown-content {
+        position: static; /* Display inline */
+        display: block; /* Always show when parent #nav-links is active */
+        box-shadow: none;
+        background-color: transparent; /* No separate background */
+        min-width: auto;
+        padding: 0;
+        border-radius: 0;
+        /* Reset animation properties */
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        transition: none; /* Disable transitions for mobile */
+    }
+
+    #nav-links .dropdown-content a {
+        padding: 12px 20px 12px 40px; /* Indent sub-items */
+        text-align: center; /* Or left */
+        font-size: 16px;
+        font-weight: normal;
+        color: #B8DEEF; /* Lighter color for sub-items */
+        border-bottom: 1px solid #425d81; /* Separator */
+    }
+    /* Hide desktop hover effect for sub-items */
+     #nav-links .dropdown-content a::after {
+        display: none;
+     }
+     #nav-links .dropdown-content a:hover {
+         background-color: rgba(184, 222, 239, 0.1); /* Keep subtle hover */
+     }
+
+    /* Optional: Style the hamburger icon when active (to form an 'X') */
+    .menu-icon.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+    .menu-icon.active span:nth-child(2) {
+        opacity: 0;
+    }
+    .menu-icon.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    /* --- Add other mobile styles below --- */
+    /* e.g., .hero adjustments, .grid stacking, etc. */
+
+} /* End of @media query */
+
+@media (max-width: 480px) {
+    html, body {
+        font-size: 16px; /* Adjust base font size */
+    }
+    .hero {
+        padding: 60px 20px;
+        margin-top: 50px;
+    }
+    .hero h1 {
+        font-size: 2rem; /* Further reduce heading size */
+    }
+    .section, .testimonials {
+        padding: 30px 15px;
+    }
+    .card, .full-width-card {
+        padding: 20px;
+    }
+    .elements-grid {
+        grid-template-columns: 1fr; /* Stack elements */
+    }
+    h2 {
+        font-size: 1.5rem; /* Adjust h2 size */
+    }
+    .cta {
+        padding: 60px 20px;
+    }
+    /* Adjust nav for very small screens if needed (e.g., stack items) */
+    nav {
+        align-items: flex-start;
+        padding: 10px;
+    }
+    .logo {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    nav ul {
+        flex-direction: column; /* Example: Stack logo and links */
+        margin-right: 0;
+        text-align: left;
+    }
+    nav ul li {
+        margin: 5px 10px;
+        display: block; /* Stack nav items */
+    }
+    .menu-icon {
+        font-size: 32px;
+        top: 15px;
+    }
+}
